@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <odoo>
+            <data>
+                <menuitem id="dmart_root"
+                      name="D-Mart"
+                      sequence="2"/>
+    <!--                  web_icon="fashion_system,static/description/icon.png"/>-->
+
+                    <menuitem id="order_order_dmart"
+                      name="Orders"
+                      sequence="2"
+                      parent="dmart.dmart_root"/>
+
+                <record id="view_orders_form" model="ir.ui.view">
+                    <field name="name">view.order.form</field>
+                    <field name="model">market.order</field>
+                    <field name="arch" type="xml">
+                        <form string="Order Details">
+                            <header>
+                                <button type="object" name="calculate_total" string="Total"/>
+                                <button name="%(dmart.action_view_customer_details_act)d" string="Customer Details" type="action" class="btn btn-success"/>
+                            </header>
+                            <sheet>
+                                 <group>
+                                   <group>
+                                        <group>
+                                            <field name="name" required="1"/>
+                                            <field name="order_date"/>
+<!--                                            <field name="calculate_total"/>-->
+                                        </group>
+                                        <group>
+                                            <field name="total"/>
+                                            <field name="gst_number"/>
+                                            <field name="state_info"/>
+                                            <field name="city_info"/>
+                                            <field name="address_info"/>
+                                        </group>
+                                   </group>
+                               </group>
+                               <group name="Order Lines" string="Record">
+                                        <field name="orderlist_ids" nolable="1">
+                                            <tree editable="bottom">
+<!--                                                <field name="name"/>-->
+                                                <field name="product_id"/>
+                                                <field name="quantity"/>
+                                                <field name="unit_price"/>
+                                                <field name="total"/>
+                                            </tree>
+                                        </field>
+                               </group>
+                            </sheet>
+                         </form>
+                    </field>
+                </record>
+                <record id="view_orders_list" model="ir.ui.view">
+                     <field name="name">view.orders.list</field>
+                     <field name="model">market.order</field>
+                    <field name="arch" type="xml">
+                        <tree string="Order">
+<!--                            <field name="order_ids"/>-->
+                            <field name="name"/>
+                            <field name="order_date"/>
+                            <field name="total"/>
+                             <field name="state_info"/>
+                            <field name="city_info"/>
+                            <field name="address_info"/>
+                        </tree>
+                    </field>
+                </record>
+            <record id="action_order" model="ir.actions.act_window">
+                <field name="name">Order</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">market.order</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <record id="action_view_orders_tree" model="ir.actions.act_window.view">
+                <field name="sequence" eval="1"/>
+                <field name="view_mode">tree</field>
+                <field name="view_id" ref="dmart.view_orders_list"/>
+                <field name="act_window_id" ref="action_order"/>
+            </record>
+
+            <record id="view_action_orders_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dmart.view_orders_form"/>
+            <field name="act_window_id" ref="action_order"/>
+            </record>
+                <menuitem id="order_order_menu"
+                  name="Order"
+                  sequence="2"
+                  parent="dmart.order_dmart"
+                  action="dmart.action_order"/>
+        </data>
+    </odoo>
